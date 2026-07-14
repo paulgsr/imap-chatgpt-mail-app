@@ -1,0 +1,14 @@
+services:
+  imap-chatgpt-mail:
+    image: ghcr.io/YOUR_GITHUB_USERNAME/imap-chatgpt-mail-app:0.2.0
+    container_name: imap-chatgpt-mail
+    restart: unless-stopped
+    env_file:
+      - /mnt/tank/app-config/imap-chatgpt-mail/.env
+    environment:
+      BIND_HOST: 0.0.0.0
+      DATA_DIR: /app/data
+    ports:
+      - "2091:3000"
+    volumes:
+      - /mnt/tank/app-data/imap-chatgpt-mail:/app/data
