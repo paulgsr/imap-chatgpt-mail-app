@@ -1,7 +1,7 @@
 FROM node:24-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --no-audit --no-fund --prefer-offline
 COPY tsconfig.json tsconfig.build.json ./
 COPY src ./src
 RUN npm run build
@@ -11,7 +11,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 RUN apk add --no-cache tini
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev && npm cache clean --force
+RUN npm ci --omit=dev --no-audit --no-fund --prefer-offline && npm cache clean --force
 COPY --from=build /app/dist ./dist
 RUN mkdir -p /app/data && chown -R node:node /app
 USER node
